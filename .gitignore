@@ -1,0 +1,10 @@
+# IDE / Editor
+.idea
+.vscode
+
+# Node.js
+docs/node_modules
+
+# Vitepress
+docs/.vitepress/cache
+docs/.vitepress/dist
