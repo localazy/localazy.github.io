@@ -1,0 +1,39 @@
+name: Release CI
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-docs:
+    name: Deploy Docs
+    runs-on: [self-hosted, Linux]
+    env:
+      NODE_OPTIONS: --max_old_space_size=8192
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Docs
+        run: |
+          cd docs
+          npm ci
+          npm run build
+
+      - name: Update Docs Branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs/.vitepress/dist
